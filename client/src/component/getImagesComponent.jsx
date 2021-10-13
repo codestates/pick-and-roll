@@ -22,7 +22,6 @@ function GetImagesComponent({ isValue, selectCategory }) {
         }
       )
       .then((res) => {
-        console.log(res)
         setInfos([...infos, ...res.data])
         setOffset(offset + 1)
       })

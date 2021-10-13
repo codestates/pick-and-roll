@@ -288,6 +288,12 @@ module.exports = {
           Comments
         } = recipeData
 
+        //* 레시피 만든 사용자 닉네임 정보 보내기 *//
+        let findUserNickName = await User.findOne({
+          where: { id: res.locals.userId }
+        })
+        let userNickName = findUserNickName.dataValues.nickname
+
         //* 나의 게시물, 즐겨찾기인지 확인 *//
         let findFavoriteRecipe = await Favorite.findOne({
           where: {
@@ -329,6 +335,7 @@ module.exports = {
         resultData = {
           id,
           userId,
+          userNickName,
           isMyRecipe,
           isMyFavorite,
           isVoteTaste,

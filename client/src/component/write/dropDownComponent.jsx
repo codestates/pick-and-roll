@@ -28,7 +28,7 @@ const DropDownTime = ({ requiredTime, setRequiredTime, requiredTimeRef }) => {
 export const DropDownCategory = ({ category, setCategory, categoryRef }) => {
   const onChangeCategory = useCallback((event) => {
     setCategory(event.target.value)
-  }, [])
+  })
 
   return (
     <Wrapper>

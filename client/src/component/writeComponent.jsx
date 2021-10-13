@@ -83,11 +83,9 @@ const WriteComponent = (props) => {
 
     let content = contents.join('@')
     // regex
-    let ingred = ingredients.map(
-      (el) => `${el.ingredient},${el.amount}`
-    )
+    let ingred = ingredients.map((el) => `${el.ingredient},${el.amount}`)
     let finalIngredients = ingred.join('@')
-
+    console.log(category)
     await api.post(
       '/recipes',
       {
@@ -98,10 +96,11 @@ const WriteComponent = (props) => {
         requiredTime: requiredTime,
         ingredients: finalIngredients,
         content: content,
-        contentImg: contentImgs.join(',')
+        contentImg: contentImgs.join(','),
       },
       {
-        'Content-Type': 'application/json',
+        ContentType: 'application/json',
+        withCredentials: true,
       }
     )
 
@@ -185,7 +184,9 @@ const WriteComponent = (props) => {
           </BoxWrap>
           <FormGroup>
             <Labal>
-            <div className='center'>요리 재료 <span className="require">*</span></div>
+              <div className="center">
+                요리 재료 <span className="require">*</span>
+              </div>
             </Labal>
             <AddListingredients
               ingredients={ingredients}
@@ -197,7 +198,9 @@ const WriteComponent = (props) => {
           </FormGroup>
           <FormGroup>
             <Labal>
-            <div className='center'>요리 방법 <span className="require">*</span></div>
+              <div className="center">
+                요리 방법 <span className="require">*</span>
+              </div>
             </Labal>
             <AddListContent
               contents={contents}
@@ -297,10 +300,10 @@ const Labal = styled.div`
   margin-bottom: 3px;
   font-size: 25px;
   .center {
-    margin-left : 25px;
+    margin-left: 25px;
     @media (max-width: 750px) {
-      margin-left : 15px;
-  }
+      margin-left: 15px;
+    }
   }
   .require {
     color: rgb(255, 162, 0);
@@ -339,8 +342,8 @@ const Input = styled.input`
     line-height: 1.5;
     color: #b5b5b5;
     @media (max-width: 750px) {
-    font-size: 11px;
-  }
+      font-size: 11px;
+    }
   }
   .title {
     font-size: 30px;
@@ -360,7 +363,7 @@ const Enroll = styled.button`
   font-size: 25px;
   font-weight: bold;
   @media (max-width: 750px) {
-    height : 40px;
+    height: 40px;
     font-size: 15px;
   }
 `
@@ -384,7 +387,7 @@ const Textarea = styled.textarea`
     line-height: 1.5;
     color: #b5b5b5;
     @media (max-width: 750px) {
-    font-size: 11px;
+      font-size: 11px;
     }
   }
 `

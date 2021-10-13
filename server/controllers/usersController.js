@@ -421,7 +421,7 @@ module.exports = {
                 password: generateRandomPassword(),
                 nickname: userKakaoNick,
                 description:
-                  'Pick&Roll 가입을 환영합니다!!\n자기소개를 입력해주세요.'
+                  'Pick&Roll 가입을 환영합니다!! 자기소개를 입력해주세요.'
               })
                 .then(async (user) => {
                   let userData = user.dataValues

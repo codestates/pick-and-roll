@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 const AddListContent = ({
@@ -7,7 +7,6 @@ const AddListContent = ({
   contentsRef,
   setMessageContents,
 }) => {
-  const [contentValue, setContentValue] = useState()
   const addList = () => {
     setContents([...contents, ''])
   }
@@ -111,7 +110,6 @@ export const AddListingredients = ({
             type="text"
             placeholder="재료"
             onChange={(e) => {
-              console.log(obj.ingredient)
               onChangeIngredient(obj, e.target.value, idx)
             }}
             ref={ingredientsRef}
@@ -159,7 +157,7 @@ const InlineBox = styled.div`
     @media (max-width: 750px) {
       font-size: 10px;
       margin-top: 20px;
-  }
+    }
   }
 `
 

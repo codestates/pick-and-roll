@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { v4 as uuid4 } from 'uuid'
 import { BsUpload } from 'react-icons/bs'
 import { RiDeleteBinFill } from 'react-icons/ri'
@@ -33,7 +32,6 @@ const ContentImgsComponent = ({
       const getUrl = await getDownloadURL(imgRef).then((res) => {
         url = res
       })
-      console.log(url)
 
       const updatedList = [...contentImgs, url]
       setContentImgs(updatedList)
@@ -130,7 +128,7 @@ const ImgInput = styled.div`
     margin-bottom: 20px;
   }
   @media (max-width: 750px) {
-    height : 200px;
+    height: 200px;
   }
 `
 

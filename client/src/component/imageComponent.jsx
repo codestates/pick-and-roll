@@ -21,7 +21,7 @@ const ImageComponent = ({ url, info }) => {
   const toPost = () => {
     history.push(`/recipe/id=${id}`)
   }
-
+  console.log(info)
   return (
     <>
       <Background className="back" onClick={toPost}>
