@@ -44,7 +44,7 @@ const SearchComponent = () => {
           <WrapperImage>
             {infos.map((image) => (
               <div className="img-wrapper" key={image.id}>
-                <ImageComponent info={image} />
+                <ImageComponent url={image.mainImg} info={image} />
               </div>
             ))}
           </WrapperImage>
