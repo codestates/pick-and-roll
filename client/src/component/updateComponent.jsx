@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
@@ -9,8 +9,9 @@ import DropDownTime, { DropDownCategory } from './write/dropDownComponent'
 import ContentImgComponent from './ImgEncoding/contentImgsComponent'
 import MainImgComponent from './ImgEncoding/mainImgComponent'
 
-const WriteComponent = () => {
+const UpdateComponent = () => {
   const history = useHistory()
+  const recipeId = history.location.pathname.split('=')[1]
 
   const [title, setTitle] = useState('')
   const [introduction, setIntroduction] = useState('')
@@ -44,7 +45,29 @@ const WriteComponent = () => {
   const _contentImgs = useRef()
   const _ingredients = useRef()
 
-  const postInfoSubmit = async (event) => {
+  const getRecipeInfo = async () => {
+    await api.get(`/recipes?id=${recipeId}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    .then((res) => {
+      // console.log(res.data.recipeData)
+      const info = res.data.recipeData
+      setTitle(info.title)
+      setIntroduction(info.introduction)
+      // setMainImg(info.mainImg)
+      setCategory(info.category)
+      setRequiredTime(info.requiredTime)
+    })
+  }
+
+  useEffect(() => {
+    getRecipeInfo()
+  }, [])
+
+  const updateInfoSubmit = async (event) => {
     if (title === '') {
       _title.current.focus()
       setMessageTitle('title을 입력해주세요')
@@ -83,24 +106,26 @@ const WriteComponent = () => {
 
     let content = contents.join('@')
     // regex
-    let ingred = ingredients.map((el) => `${el.ingredient},${el.amount}`)
+    let ingred = ingredients.map(
+      (el) => `${el.ingredient},${el.amount}`
+    )
     let finalIngredients = ingred.join('@')
-    //console.log(category)
-    await api.post(
-      '/recipes',
+
+    await api.patch(
+      `/recipes/${recipeId}`,
       {
         title: title,
         introduction: introduction,
-        mainImg: mainImg,
         category: category,
         requiredTime: requiredTime,
-        ingredients: finalIngredients,
         content: content,
+        mainImg: mainImg,
         contentImg: contentImgs.join(','),
+        ingredients: finalIngredients
       },
       {
         'Content-Type': 'application/json',
-        withCredentials: true,
+        withCredentials: true
       }
     )
 
@@ -128,7 +153,7 @@ const WriteComponent = () => {
             <Input
               className="title"
               type="text"
-              placeholder="제목을 입력해주세요"
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
               ref={_title}
             />
@@ -140,7 +165,7 @@ const WriteComponent = () => {
             </Labal>
             <Textarea
               type="text"
-              placeholder="요리에 대한 설명을 해주세요!"
+              value={introduction}
               onChange={(e) => setIntroduction(e.target.value)}
               ref={_introduction}
             />
@@ -184,9 +209,7 @@ const WriteComponent = () => {
           </BoxWrap>
           <FormGroup>
             <Labal>
-              <div className="center">
-                요리 재료 <span className="require">*</span>
-              </div>
+            <div className='center'>요리 재료 <span className="require">*</span></div>
             </Labal>
             <AddListingredients
               ingredients={ingredients}
@@ -198,9 +221,7 @@ const WriteComponent = () => {
           </FormGroup>
           <FormGroup>
             <Labal>
-              <div className="center">
-                요리 방법 <span className="require">*</span>
-              </div>
+            <div className='center'>요리 방법 <span className="require">*</span></div>
             </Labal>
             <AddListContent
               contents={contents}
@@ -222,7 +243,7 @@ const WriteComponent = () => {
             <CheckText>{messageContentImgs}</CheckText>
           </FormGroup>
           <FormGroup>
-            <Enroll onClick={(e) => postInfoSubmit(e)}>등록하기</Enroll>
+            <Enroll onClick={(e) => updateInfoSubmit(e)}>수정하기</Enroll>
           </FormGroup>
         </Form>
       </Wrapper>
@@ -300,10 +321,10 @@ const Labal = styled.div`
   margin-bottom: 3px;
   font-size: 25px;
   .center {
-    margin-left: 25px;
+    margin-left : 25px;
     @media (max-width: 750px) {
-      margin-left: 15px;
-    }
+      margin-left : 15px;
+  }
   }
   .require {
     color: rgb(255, 162, 0);
@@ -342,8 +363,8 @@ const Input = styled.input`
     line-height: 1.5;
     color: #b5b5b5;
     @media (max-width: 750px) {
-      font-size: 11px;
-    }
+    font-size: 11px;
+  }
   }
   .title {
     font-size: 30px;
@@ -363,7 +384,7 @@ const Enroll = styled.button`
   font-size: 25px;
   font-weight: bold;
   @media (max-width: 750px) {
-    height: 40px;
+    height : 40px;
     font-size: 15px;
   }
 `
@@ -387,9 +408,9 @@ const Textarea = styled.textarea`
     line-height: 1.5;
     color: #b5b5b5;
     @media (max-width: 750px) {
-      font-size: 11px;
+    font-size: 11px;
     }
   }
 `
 
-export default WriteComponent
+export default UpdateComponent

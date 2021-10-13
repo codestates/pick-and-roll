@@ -9,7 +9,7 @@ const DropdownStar = ({ color }) => {
   const [selected, setSelected] = useState(2)
 
   const starClick = (e) => {
-    console.log(e.target)
+    // console.log(e.target)
     setSelected(e.target.value)
     setIsActive(false)
   }

@@ -32,6 +32,10 @@ const ContentImgsComponent = ({
       const getUrl = await getDownloadURL(imgRef).then((res) => {
         url = res
       })
+<<<<<<< HEAD
+=======
+      // console.log(url)
+>>>>>>> 13feae45736f8a4fbdbc7184e9b9160aeddc4ed2
 
       const updatedList = [...contentImgs, url]
       setContentImgs(updatedList)

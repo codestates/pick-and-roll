@@ -1,8 +1,9 @@
 import React, { useState, useContext, useRef } from 'react'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
-import api from '../../api/index'
 import { useHistory } from 'react-router'
+
+import api from '../../api/index'
 import { UserContext } from '../../context/userContext'
 
 const EditMyInfoComponent = () => {

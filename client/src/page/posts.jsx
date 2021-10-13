@@ -24,7 +24,6 @@ const Posts = () => {
       withCredentials: true
     })
     .then((res) => {
-      console.log(res.data.recipeData)
       setRecipeInfo(res.data.recipeData)
       const yymmdd = res.data.recipeData.createdAt.split('-')
       const dd = yymmdd[2].split('T')[0]
@@ -55,8 +54,8 @@ const Posts = () => {
     .then((res) => window.location.reload())
   }
 
-  const updateRecipe = async () => {
-
+  const updateRecipe = () => {
+    history.push(`/update/id=${recipeId}`)
   }
 
   const deleteRecipe = async () => {

@@ -1,8 +1,8 @@
 import React, { useState, useContext, useRef } from 'react'
 import styled from 'styled-components'
 import { FaRegTimesCircle } from 'react-icons/fa'
-import api from '../../api/index'
 import Swal from 'sweetalert2'
+import api from '../../api/index'
 
 const PasswordModal = ({ pwModal, setPwModal, setPage }) => {
   const [password, setPassword] = useState('')

@@ -14,7 +14,7 @@ const MyRecipeComponent = () => {
           withCredentials: true }
       )
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         // let { id, email, nickname, description, createdAt } = res.data
         // createdAt = createdAt.substring(0, 10)
         // let user = { id, email, nickname, description, createdAt }

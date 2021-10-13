@@ -8,6 +8,7 @@ import Recipe from './page/recipe'
 import Search from './page/search'
 import Signup from './page/signup'
 import Write from './page/write'
+import Update from './component/updateComponent'
 import Redirect from './component/kakao/redirect'
 import NavbarComponent from './component/navbarComponent'
 import FooterComponent from './component/footerComponent';
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/mypage/:id" component={Mypage} />
           <Route exact path="/write" component={Write} />
           <Route exact path="/recipe" component={Recipe} />
+          <Route exact path="/update/:id" component={Update} />
           <Route exact path="/search/:id" component={Search} />
           <Route exact path="/recipe/:id" component={Posts} />
           <Route exact path="/oauth/kakao" component={Redirect}/>

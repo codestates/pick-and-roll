@@ -11,10 +11,10 @@ const MyFavoriteComponent = () => {
           headers : { 
             'Content-Type': 'application/json' 
           },
-           withCredentials: true }        
+          withCredentials: true }        
       )
       .then((res) => {
-        console.log(res)
+        // console.log(res)
       })
   }
 

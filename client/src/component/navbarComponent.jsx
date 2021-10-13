@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
-import { NavLink as NavLinkLogo } from 'react-router-dom'
-import { NavLink as NavLinkElement } from 'react-router-dom'
+import { NavLink as NavLinkLogo, NavLink as NavLinkElement } from 'react-router-dom'
 import { FaAlignJustify } from 'react-icons/fa'
 import LoginModal from './modal/loginModal'
 import SearchBoxModal from './modal/searchBoxModal'
