@@ -85,7 +85,7 @@ const WriteComponent = (props) => {
     // regex
     let ingred = ingredients.map((el) => `${el.ingredient},${el.amount}`)
     let finalIngredients = ingred.join('@')
-    console.log(category)
+    //console.log(category)
     await api.post(
       '/recipes',
       {
