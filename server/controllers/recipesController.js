@@ -110,6 +110,7 @@ module.exports = {
                 easyNum === 0 ? 0 : everyScoreSum(el.EasyScores) / easyNum
               const {
                 id,
+                userId,
                 title,
                 mainImg,
                 introduction,
@@ -117,8 +118,14 @@ module.exports = {
                 createdAt,
                 updatedAt
               } = el
+              //* 레시피 만든 사용자 닉네임 정보 보내기 *//
+              let findUserNickName = await User.findOne({
+                where: { id: userId }
+              })
+              let userNickName = findUserNickName.dataValues.nickname
               return {
                 id,
+                userNickName,
                 title,
                 mainImg,
                 introduction,
@@ -160,6 +167,7 @@ module.exports = {
                 easyNum === 0 ? 0 : everyScoreSum(el.EasyScores) / easyNum
               const {
                 id,
+                userId,
                 title,
                 mainImg,
                 introduction,
@@ -167,8 +175,13 @@ module.exports = {
                 createdAt,
                 updatedAt
               } = el
+              let findUserNickName = await User.findOne({
+                where: { id: userId }
+              })
+              let userNickName = findUserNickName.dataValues.nickname
               return {
                 id,
+                userNickName,
                 title,
                 mainImg,
                 introduction,
@@ -215,6 +228,7 @@ module.exports = {
               easyNum === 0 ? 0 : everyScoreSum(el.EasyScores) / easyNum
             const {
               id,
+              userId,
               title,
               mainImg,
               introduction,
@@ -222,8 +236,13 @@ module.exports = {
               createdAt,
               updatedAt
             } = el
+            let findUserNickName = await User.findOne({
+              where: { id: userId }
+            })
+            let userNickName = findUserNickName.dataValues.nickname
             return {
               id,
+              userNickName,
               title,
               mainImg,
               introduction,

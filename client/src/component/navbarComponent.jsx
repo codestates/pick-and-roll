@@ -9,7 +9,7 @@ import { AuthContext } from '../context/authContext'
 import { UserContext } from '../context/userContext'
 import MenuModal from './modal/menuModal'
 
-const NavbarComponent = ({ handleLogin }) => {
+const NavbarComponent = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
   const { userInfo, setUserInfo } = useContext(UserContext)
   const [openLogin, setOpenLogin] = useState(false)
@@ -53,7 +53,6 @@ const NavbarComponent = ({ handleLogin }) => {
           <Modal>
             {openLogin ? (
               <LoginModal
-                handleLogin={handleLogin}
                 openLogin={openLogin}
                 setOpenLogin={setOpenLogin}
               />
