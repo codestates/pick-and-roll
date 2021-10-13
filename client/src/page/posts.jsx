@@ -17,89 +17,106 @@ const Posts = () => {
   const [date, setDate] = useState('')
 
   const getRecipeInfo = async () => {
-    await api.get(`/recipes?id=${recipeId}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    .then((res) => {
-      setRecipeInfo(res.data.recipeData)
-      const yymmdd = res.data.recipeData.createdAt.split('-')
-      const dd = yymmdd[2].split('T')[0]
-      setDate(`${yymmdd[0]}.${yymmdd[1]}.${dd}`)
-    })
+    await api
+      .get(`/recipes?id=${recipeId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data.recipeData)
+        setRecipeInfo(res.data.recipeData)
+        const yymmdd = res.data.recipeData.createdAt.split('-')
+        const dd = yymmdd[2].split('T')[0]
+        setDate(`${yymmdd[0]}.${yymmdd[1]}.${dd}`)
+      })
   }
-  
+
   useEffect(() => {
     getRecipeInfo()
   }, [])
 
   const addFavorite = async () => {
-    await api.post(`/users/favorite/${recipeId}`, {}, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    .then((res) => {
-      window.location.reload()
-    })
+    await api
+      .post(
+        `/users/favorite/${recipeId}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        window.location.reload()
+      })
   }
 
   const deleteFavorite = async () => {
-    await api.delete(`/users/favorite/${recipeId}`, {
-      withCredentials:true
-    })
-    .then((res) => window.location.reload())
+    await api
+      .delete(`/users/favorite/${recipeId}`, {
+        withCredentials: true,
+      })
+      .then((res) => window.location.reload())
   }
 
-  const updateRecipe = () => {
-    history.push(`/update/id=${recipeId}`)
-  }
+  const updateRecipe = async () => {}
 
   const deleteRecipe = async () => {
-    await api.delete(`/recipes/${recipeId}`, {
-      withCredentials: true
-    })
-    .then((res) =>{
-      history.push('/recipe')
-    })
+    await api
+      .delete(`/recipes/${recipeId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        history.push('/recipe')
+      })
   }
 
   const giveTasteScore = async () => {
-    await api.post(`/recipes/${recipeId}/taste-score`, {
-      score: 5
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    .then((res) => window.location.reload())
+    await api
+      .post(
+        `/recipes/${recipeId}/taste-score`,
+        {
+          score: 5,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => window.location.reload())
   }
 
   const giveEasyScore = async () => {
-    await api.post(`/recipes/${recipeId}/easy-score`, {
-      score: 5
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    .then((res) => window.location.reload())
+    await api
+      .post(
+        `/recipes/${recipeId}/easy-score`,
+        {
+          score: 5,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => window.location.reload())
   }
 
   return (
     <Wrapper>
       <Form>
-        <TitleArea> 
+        <TitleArea>
           <Favorite>
-            { recipeInfo.isMyFavorite ? (
+            {recipeInfo.isMyFavorite ? (
               <button onClick={deleteFavorite}>해제</button>
             ) : (
-              <FaRegBookmark onClick={addFavorite}/>
+              <FaRegBookmark onClick={addFavorite} />
             )}
           </Favorite>
           <Title>{recipeInfo.title}</Title>
@@ -111,7 +128,7 @@ const Posts = () => {
             <Category>{`카테고리 : ${recipeInfo.category}`}</Category>
             <Editor className="date">{recipeInfo.createdAt && date}</Editor>
           </TextWrap>
-          { recipeInfo.userId === userInfo.id ? (
+          {recipeInfo.userId === userInfo.id ? (
             <>
               <TitleIcon1>
                 <FaCog onClick={updateRecipe} />
@@ -120,37 +137,35 @@ const Posts = () => {
                 <FaRegTrashAlt onClick={deleteRecipe} />
               </TitleIcon2>
             </>
-          ) : null }
+          ) : null}
         </TitleArea>
         <ScoreWrap>
           <ScoreContent>{`맛 ${recipeInfo.tasteAvg}`}</ScoreContent>
           <ScoreContent>{`간편성 ${recipeInfo.easyAvg}`}</ScoreContent>
         </ScoreWrap>
-        <MainImage style={{backgroundImage: `url('${recipeInfo.mainImg}')`}}/>
+        <MainImage
+          style={{ backgroundImage: `url('${recipeInfo.mainImg}')` }}
+        />
         <BoxWrap>
           <BoxGroup>
-            {
-              recipeInfo.isVoteTaste ? (
-                <div>이미 투표</div>
-              ) : (
-                <>
-                  <StarBtn onClick={giveTasteScore}>맛 별점주기</StarBtn>
-                  <DropdownStar className="taste" color="blue" />
-                </>
-              )
-            }
+            {recipeInfo.isVoteTaste ? (
+              <div>이미 투표</div>
+            ) : (
+              <>
+                <StarBtn onClick={giveTasteScore}>맛 별점주기</StarBtn>
+                <DropdownStar className="taste" color="blue" />
+              </>
+            )}
           </BoxGroup>
           <BoxGroup>
-            {
-              recipeInfo.isVoteEasy ? (
-                <div>이미 투표</div>
-              ) : (
-                <>
-                  <StarBtn onClick={giveEasyScore}>간편성 별점주기</StarBtn>
-                  <DropdownStar className="simple" color="red" />
-                </>
-              )
-            }
+            {recipeInfo.isVoteEasy ? (
+              <div>이미 투표</div>
+            ) : (
+              <>
+                <StarBtn onClick={giveEasyScore}>간편성 별점주기</StarBtn>
+                <DropdownStar className="simple" color="red" />
+              </>
+            )}
           </BoxGroup>
         </BoxWrap>
         <Labal>요리소개</Labal>
@@ -160,13 +175,10 @@ const Posts = () => {
           <Labal>재료</Labal>
           <Contents>
             <ul>
-              {
-                recipeInfo.ingredients && recipeInfo.ingredients.map((el) => {
-                  return (
-                    <li>{`${el[0]} : ${el[1]}`}</li>
-                  )
-                })
-              }
+              {recipeInfo.ingredients &&
+                recipeInfo.ingredients.map((el) => {
+                  return <li>{`${el[0]} : ${el[1]}`}</li>
+                })}
             </ul>
           </Contents>
         </ContentWrap>
@@ -175,27 +187,24 @@ const Posts = () => {
           <Labal>요리 방법</Labal>
           <Contents>
             <ol>
-              {
-                recipeInfo.content && recipeInfo.content.map((el) => {
-                  return (
-                    <li>{el}</li>
-                  )
-                })
-              }
+              {recipeInfo.content &&
+                recipeInfo.content.map((el) => {
+                  return <li>{el}</li>
+                })}
             </ol>
           </Contents>
         </ContentWrap>
         <Labal>요리 사진</Labal>
         <SubWrap>
-          {
-            recipeInfo.contentImg && recipeInfo.contentImg.map((el) => {
-              return (
-                <SubImage style={{backgroundImage: `url('${el}')`}}/>
-              )
-            })
-          }
+          {recipeInfo.contentImg &&
+            recipeInfo.contentImg.map((el) => {
+              return <SubImage style={{ backgroundImage: `url('${el}')` }} />
+            })}
         </SubWrap>
-        <CommentComponent recipesId={recipeId} comments={recipeInfo.commentData}/>
+        <CommentComponent
+          recipesId={recipeId}
+          comments={recipeInfo.commentData}
+        />
       </Form>
     </Wrapper>
   )

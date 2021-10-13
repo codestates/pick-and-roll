@@ -13,7 +13,7 @@ const Recipe = () => {
         setSelected={setSelected}
         setSelectCateogry={setSelectCateogry}
       />
-      <GetImgComponent selectCategory={selectCategory} />
+      <GetImgComponent selectCategory={selectCategory} selected={selected} />
     </>
   )
 }

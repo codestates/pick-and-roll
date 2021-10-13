@@ -21,7 +21,7 @@ const ImageComponent = ({ url, info }) => {
   const toPost = () => {
     history.push(`/recipe/id=${id}`)
   }
-  //console.log(info)
+  console.log(info)
   return (
     <>
       <Background className="back" onClick={toPost}>
@@ -71,6 +71,7 @@ const Background = styled.div`
   transition: all 0.3s linear;
   overflow-y: hidden;
   padding: 0 20px;
+  z-index: auto;
   .score {
     position: absolute;
     bottom: 1.5px;

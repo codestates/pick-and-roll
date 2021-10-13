@@ -86,6 +86,19 @@ const WriteComponent = () => {
     let ingred = ingredients.map((el) => `${el.ingredient},${el.amount}`)
     let finalIngredients = ingred.join('@')
     //console.log(category)
+    let categoryEng
+    if (category === '한식') {
+      categoryEng = 'korean'
+    } else if (category === '일식') {
+      categoryEng = 'japanese'
+    } else if (category === '중식') {
+      categoryEng = 'chinese'
+    } else if (category === '기타') {
+      categoryEng = 'etc'
+    } else if (category === '양식') {
+      categoryEng = 'western'
+    }
+
     await api.post(
       '/recipes',
       {

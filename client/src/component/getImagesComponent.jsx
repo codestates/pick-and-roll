@@ -5,11 +5,18 @@ import api from '../api'
 import ImageComponent from './imageComponent'
 import LoadingComponent from './loadingComponent'
 
-function GetImagesComponent({ isValue, selectCategory }) {
+function GetImagesComponent({ isValue, selectCategory, selected }) {
   const [offset, setOffset] = useState(1) // 데이터를 받으면 then에서 offset +1
   const [infos, setInfos] = useState([])
-  const [division, setDivision] = useState('createdAt')
-
+  let division = 'createdAt'
+  if (selected === '최신') {
+    division = 'createdAt'
+  } else if (selected === '간편성') {
+    division = 'easy'
+  } else if (selected === '맛') {
+    division = 'taste'
+  }
+  //console.log(division)
   const fetchImages = async () => {
     await api
       .get(

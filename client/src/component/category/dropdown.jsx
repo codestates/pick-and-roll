@@ -36,7 +36,6 @@ const Dropdown = ({ selected, setSelected }) => {
 }
 
 const Container = styled.div`
-  z-index: 50;
   margin-top: 7px;
   margin-right: 100px;
 `
