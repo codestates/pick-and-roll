@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 
 import api from '../api'
 import AddListContent, { AddListingredients } from './write/addListComponent'
-import DropDownTime, { DropDownCategory } from './write/dropDownComponent'
+import DropDownCategory from './write/dropDownComponent'
 import ContentImgComponent from './ImgEncoding/contentImgsComponent'
 import MainImgComponent from './ImgEncoding/mainImgComponent'
 
@@ -187,12 +187,14 @@ const WriteComponent = () => {
               <Labal>
                 조리시간 <span className="require">*</span>
               </Labal>
-              <DropDownTime
-                requiredTime={requiredTime}
-                setRequiredTime={setRequiredTime}
-                requiredTimeRef={_requiredTime}
-              />
-              <CheckText>{messageRequiredTime}</CheckText>
+              <TimeWrapper>
+                <input
+                  type="text"
+                  placeholder="조리시간"
+                  onChange={(e) => setRequiredTime(e.target.value)}
+                  ref={_requiredTime}
+                />
+              </TimeWrapper>
             </BoxGroup>
           </BoxWrap>
           <FormGroup>
@@ -402,6 +404,30 @@ const Textarea = styled.textarea`
     @media (max-width: 750px) {
       font-size: 11px;
     }
+  }
+`
+
+const TimeWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  height: 30px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  resize: none;
+  input {
+    height: 80%;
+    width: 100%;
+    margin-top: 3px;
+    outline: none;
+    text-align: center;
+    border: 0mm #f7f4f41c;
+    @media (max-width: 750px) {
+      font-size: 10px;
+    }
+  }
+  :focus {
+    border: solid 2px rgb(243, 200, 18);
+    outline: none;
   }
 `
 

@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 
 import api from '../api'
-import AddListContent, { AddListingredients } from './write/addListComponent'
-import DropDownTime, { DropDownCategory } from './write/dropDownComponent'
+import { AddListingredients } from './write/addListComponent'
+import DropDownCategory from './write/dropDownComponent'
 import ContentImgComponent from './ImgEncoding/contentImgsComponent'
 import MainImgComponent from './ImgEncoding/mainImgComponent'
 
@@ -53,19 +53,45 @@ const UpdateComponent = () => {
       withCredentials: true
     })
     .then((res) => {
-      // console.log(res.data.recipeData)
       const info = res.data.recipeData
       setTitle(info.title)
       setIntroduction(info.introduction)
-      // setMainImg(info.mainImg)
+      setMainImg(info.mainImg)
       setCategory(info.category)
+      setContents(info.content)
       setRequiredTime(info.requiredTime)
+      let ingredient = info.ingredients.map((el) => {
+        return {
+          ingredient: el[0],
+          amount: el[1]
+        }
+      })
+      setIngredients(ingredient)
+      setContentImgs(info.contentImg)
     })
   }
 
   useEffect(() => {
     getRecipeInfo()
   }, [])
+
+  const addList = () => {
+    setContents([...contents, ''])
+  }
+
+  const deletList = () => {
+    setContents(contents.slice(0, -1))
+  }
+
+  const onChangeContent = useCallback((event, idx) => {
+    if (!/[@!#$%^&*()]/g.test(event)) {
+      const newContent = contents.slice()
+      newContent[idx] = event
+      setContents(newContent)
+    } else {
+      setMessageContents('특수문자를 사용하실 수 없습니다.')
+    }
+  })
 
   const updateInfoSubmit = async (event) => {
     if (title === '') {
@@ -199,12 +225,15 @@ const UpdateComponent = () => {
               <Labal>
                 조리시간 <span className="require">*</span>
               </Labal>
-              <DropDownTime
-                requiredTime={requiredTime}
-                setRequiredTime={setRequiredTime}
-                requiredTimeRef={_requiredTime}
-              />
-              <CheckText>{messageRequiredTime}</CheckText>
+              <TimeWrapper>
+                <input
+                  type="text"
+                  placeholder="조리시간"
+                  value={requiredTime}
+                  onChange={(e) => setRequiredTime(e.target.value)}
+                  ref={_requiredTime}
+                />
+              </TimeWrapper>
             </BoxGroup>
           </BoxWrap>
           <FormGroup>
@@ -223,12 +252,29 @@ const UpdateComponent = () => {
             <Labal>
             <div className='center'>요리 방법 <span className="require">*</span></div>
             </Labal>
-            <AddListContent
-              contents={contents}
-              setContents={setContents}
-              contentsRef={_contents}
-              setMessageContents={setMessageContents}
-            ></AddListContent>
+            <CookWrapper>
+              {contents.map((content, idx) => (
+                <InlineBox key={idx}>
+                  <div className="number">{idx + 1}.</div>
+                  <CookTextarea
+                    type="text"
+                    onChange={(e) => {
+                      onChangeContent(e.target.value, idx)
+                    }}
+                    value={content}
+                    ref={_contents}
+                  />
+                </InlineBox>
+              ))}
+              <ClickWrap>
+                <ClickBtn className="button" onClick={addList}>
+                  항목 추가
+                </ClickBtn>
+                <ClickBtn className="button" onClick={deletList}>
+                  항목 제거
+                </ClickBtn>
+              </ClickWrap>
+            </CookWrapper>
             <CheckText>{messageContents}</CheckText>
           </FormGroup>
           <FormGroup>
@@ -413,4 +459,108 @@ const Textarea = styled.textarea`
   }
 `
 
+const TimeWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  height: 30px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  resize: none;
+  input {
+    height: 80%;
+    width: 100%;
+    margin-top: 3px;
+    outline: none;
+    text-align: center;
+    border: 0mm #f7f4f41c;
+    @media (max-width: 750px) {
+      font-size: 10px;
+    }
+  }
+  :focus {
+    border: solid 2px rgb(243, 200, 18);
+    outline: none;
+  }
+`
+
+const CookWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  span {
+    font-size: 23px;
+  }
+`
+
+const InlineBox = styled.div`
+  display: flex;
+  justify-items: flex-start;
+  margin-bottom: 10px;
+  .number {
+    font-size: 15px;
+    margin-top: 16px;
+    margin-right: 3px;
+    color: #c4c4c4;
+    @media (max-width: 750px) {
+      font-size: 10px;
+      margin-top: 20px;
+    }
+  }
+`
+
+const ClickWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const ClickBtn = styled.button`
+  height: 35px;
+  width: 25%;
+  background-color: #a5a5a5;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s linear;
+  :hover {
+    background-color: #e89a13;
+  }
+  :nth-child(1) {
+    margin-left: 9px;
+    @media (max-width: 750px) {
+      margin-left: 5.5px;
+    }
+  }
+  :nth-child(2) {
+    margin-left: 5px;
+  }
+  @media (max-width: 750px) {
+    font-size: 11px;
+    height: 25px;
+  }
+`
+const CookTextarea = styled.textarea`
+  width: 100%;
+  height: 60px;
+  align-items: center;
+  padding: 5px 10px 10px 10px;
+  border-radius: 8px;
+  margin-right: 5px;
+  box-sizing: border-box;
+  border: solid 2px #d2d2d2;
+  resize: none;
+  :focus {
+    border: solid 2px rgb(243, 200, 18);
+    outline: none;
+  }
+  ::placeholder {
+    font-size: 15px;
+    text-align: left;
+    line-height: 1.5;
+    color: #b5b5b5;
+    @media (max-width: 750px) {
+      font-size: 13px;
+    }
+  }
+`
 export default UpdateComponent

@@ -8,10 +8,10 @@ import { UserContext } from '../../context/userContext'
 
 const EditMyInfoComponent = () => {
   const { userInfo, setUserInfo } = useContext(UserContext)
-  const { email, nickname, description, createdAt } = userInfo
+  const { email, createdAt } = userInfo
 
-  const [changeNickname, setChangeNickname] = useState('')
-  const [changeDescription, setChangeDescription] = useState('')
+  const [nickname, setNickname] = useState(userInfo.nickname)
+  const [description, setDescription] = useState(userInfo.description)
 
   const [messageNickname, setMessageNickname] = useState('')
   const [messageDescription, setMessageDescription] = useState('')
@@ -26,7 +26,7 @@ const EditMyInfoComponent = () => {
   const nickname_Reg = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/
 
   const checkNickname = async () => {
-    if (!nickname_Reg.test(changeNickname) || changeNickname === '') {
+    if (!nickname_Reg.test(nickname) || nickname === '') {
       Swal.fire({
         title: '닉네임을 다시 정해주세요',
         text: '닉네임은 한글, 영문, 숫자만 가능하며 2-10자리까지 가능합니다!',
@@ -40,7 +40,7 @@ const EditMyInfoComponent = () => {
     }
     await api
       .post('users/signup/nick-check', {
-        nickname: changeNickname,
+        nickname: nickname,
       },{
         withCredentials: true
       })
@@ -55,14 +55,14 @@ const EditMyInfoComponent = () => {
             confirmButtonText: '확인',
             confirmButtonColor: '#e8b229',
           })
-          setChangeNickname('')
+          setNickname('')
           return
         }
       })
   }
 
 const DesCheck = () => {
-  if (changeDescription === '') {
+  if (description === '') {
     _des.current.focus()
     setMessageDescription('자기소개를 입력해주세요!')
     return
@@ -70,22 +70,22 @@ const DesCheck = () => {
 }
 
   const editDone = async () => {
-    if (changeNickname === '' || !nickname_Reg.test(changeNickname)) {
+    if (nickname === '' || !nickname_Reg.test(nickname)) {
       _nick.current.focus()
       setMessageNickname(
         '닉네임은 한글, 영문, 숫자만 가능하며 2-10자리까지 가능합니다!'
       )
       return
     }
-    if (changeDescription === '') {
+    if (description === '') {
       _des.current.focus()
       setMessageDescription('자기소개를 입력해주세요!')
       return
     }
     await api
       .patch('/users', {
-        nickname: changeNickname,
-        description: changeDescription,
+        nickname: nickname,
+        description: description,
       }, {
         withCredentials: true
       })
@@ -94,8 +94,8 @@ const DesCheck = () => {
         setUserInfo({
           id,
           email,
-          nickname: changeNickname,
-          description: changeDescription,
+          nickname,
+          description,
           createdAt,
         })
         if (res.data.userData) {
@@ -118,7 +118,7 @@ const DesCheck = () => {
         <Name>새로운 닉네임</Name>
         <NameInput
           onChange={(e) => {
-            setChangeNickname(e.target.value)
+            setNickname(e.target.value)
           }}
           placeholder={nickname}
           ref={_nick}
@@ -130,9 +130,9 @@ const DesCheck = () => {
         <Name>자기 소개</Name>
         <Textarea
           onChange={(e) => {
-            setChangeDescription(e.target.value)
+            setDescription(e.target.value)
           }}
-          placeholder={description}
+          value={description}
           ref={_des}
           onBlur={DesCheck}
         />

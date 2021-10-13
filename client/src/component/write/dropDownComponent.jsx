@@ -1,30 +1,6 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-const DropDownTime = ({ requiredTime, setRequiredTime, requiredTimeRef }) => {
-  const onChangeRequiredTime = useCallback((event) => {
-    setRequiredTime(event.target.value)
-  })
-
-  return (
-    <Wrapper>
-      <input
-        type="text"
-        placeholder="조리시간"
-        onChange={(e) => onChangeRequiredTime(e)}
-        value={requiredTime}
-        ref={requiredTimeRef}
-      />
-      <select onChange={(e) => onChangeRequiredTime(e)}>
-        <option value="30분">30분</option>
-        <option value="1시간">1시간</option>
-        <option value="2시간">2시간</option>
-        <option value="3시간 이상">3시간 이상</option>
-      </select>
-    </Wrapper>
-  )
-}
-
 export const DropDownCategory = ({ category, setCategory, categoryRef }) => {
   const onChangeCategory = useCallback((event) => {
     setCategory(event.target.value)
@@ -40,6 +16,7 @@ export const DropDownCategory = ({ category, setCategory, categoryRef }) => {
         ref={categoryRef}
       />
       <select onChange={(e) => onChangeCategory(e)}>
+        <option>선택</option>
         <option value="한식">한식</option>
         <option value="중식">중식</option>
         <option value="일식">일식</option>
@@ -70,7 +47,7 @@ const Wrapper = styled.div`
   }
   select {
     border: 0mm #f7f4f41c;
-    width: 50%;
+    width: 80%;
     height: 100%;
     text-align: center;
     outline: none;
@@ -80,4 +57,4 @@ const Wrapper = styled.div`
     outline: none;
   }
 `
-export default DropDownTime
+export default DropDownCategory
