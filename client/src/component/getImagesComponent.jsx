@@ -17,7 +17,7 @@ function GetImagesComponent({ isValue, selectCategory, selected }) {
   // } else if (selected === '맛') {
   //   division = 'taste'
   // }
-  console.log(selectCategory)
+  //console.log(selectCategory)
   const fetchImages = async () => {
     await api
       .get(

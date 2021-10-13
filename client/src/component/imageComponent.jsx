@@ -27,12 +27,11 @@ const ImageComponent = ({ url, info }) => {
   const toPost = () => {
     if (isLoggedIn) {
       history.push(`/recipe/id=${id}`)
-    }
-    else {
+    } else {
       setOpenLogin(!openLogin)
     }
   }
-  console.log(info)
+  //console.log(info)
   return (
     <>
       <Background className="back" onClick={toPost}>
@@ -51,12 +50,9 @@ const ImageComponent = ({ url, info }) => {
       </Background>
       <BackImg style={{ backgroundImage: `url(${url})` }}></BackImg>
       <Modal>
-          {openLogin ? (
-            <LoginModal
-              openLogin={openLogin}
-              setOpenLogin={setOpenLogin}
-            />
-          ) : null}
+        {openLogin ? (
+          <LoginModal openLogin={openLogin} setOpenLogin={setOpenLogin} />
+        ) : null}
       </Modal>
     </>
   )

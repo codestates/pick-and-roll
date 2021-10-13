@@ -25,7 +25,7 @@ const Posts = () => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data.recipeData)
+        //console.log(res.data.recipeData)
         setRecipeInfo(res.data.recipeData)
         const yymmdd = res.data.recipeData.createdAt.split('-')
         const dd = yymmdd[2].split('T')[0]
