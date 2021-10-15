@@ -9,17 +9,10 @@
 ![스크린샷 2021-10-15 오전 1 50 38](https://user-images.githubusercontent.com/59719552/137361919-e7dd5b93-393b-4be0-a3d3-570df7c2b175.png)
 
 ## 💡 Architecture 💡
-<details>
-  <summary>More</summary>
-  <img width="1037" alt="architecture" src="https://user-images.githubusercontent.com/59719552/137322724-0e083d7b-f8af-4dbf-8673-a7cf9978b28d.png">
-</details>
-
+<img width="1037" alt="architecture" src="https://user-images.githubusercontent.com/59719552/137322724-0e083d7b-f8af-4dbf-8673-a7cf9978b28d.png">
 
 ## 💡 Flow Chart 💡
-<details>
-  <summary>More</summary>
-  <img width="1037" alt="Screen Shot 2021-10-14 at 10 40 52 PM" src="https://user-images.githubusercontent.com/77090941/137343261-09bad1fc-7f30-4ffe-a7c7-4d56b5a6eb18.png">
-</details>
+<img width="1037" alt="Screen Shot 2021-10-14 at 10 40 52 PM" src="https://user-images.githubusercontent.com/77090941/137343261-09bad1fc-7f30-4ffe-a7c7-4d56b5a6eb18.png">
 
 ## 💡 Web View 💡
 
